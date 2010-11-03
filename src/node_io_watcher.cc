@@ -198,8 +198,8 @@ Handle<Value> IOWatcher::Set(const Arguments& args) {
  *
  */
 
-// To enable this debug output, do:
-//   echo "CPPFLAGS += -DDUMP_DEBUG" >> config.mak
+// To enable this debug output, add '-DDUMP_DEBUG' to
+// 'build/c4che/default.cache.py' and
 //   make clean all
 #ifdef DUMP_DEBUG
 #define DEBUG_PRINT(fmt,...) do {  \
@@ -216,7 +216,6 @@ void IOWatcher::Dump(EV_P_ ev_prepare *watcher, int revents) {
   assert(watcher == &dumper);
 
   HandleScope scope;
-
 
 #define IOV_SIZE 10000
   static struct iovec iov[IOV_SIZE];
