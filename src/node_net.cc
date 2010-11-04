@@ -448,6 +448,20 @@ static Handle<Value> GetPeerName(const Arguments& args) {
 }
 
 
+static Handle<Value> GetHostname(const Arguments &args) {
+  HandleScope scope;
+
+  char buf[1024];
+
+  int r = gethostname(buf, (int) sizeof buf - 1);
+  if (r < 0) {
+    return ThrowException(ErrnoException(errno, "gethostname"));
+  }
+
+  return String::NewSymbol(buf, strlen(buf));
+}
+
+
 static Handle<Value> Listen(const Arguments& args) {
   HandleScope scope;
 
@@ -1319,6 +1333,7 @@ void InitNet(Handle<Object> target) {
   NODE_SET_METHOD(target, "getsockname", GetSockName);
   NODE_SET_METHOD(target, "getpeername", GetPeerName);
   NODE_SET_METHOD(target, "getaddrinfo", GetAddrInfo);
+  NODE_SET_METHOD(target, "gethostname", GetHostname);
   NODE_SET_METHOD(target, "isIP", IsIP);
   NODE_SET_METHOD(target, "errnoException", CreateErrnoException);
 
